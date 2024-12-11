@@ -10,8 +10,8 @@ const InformasiStore = {
         await db.query(query);
     },
 
-    getBySellerId: async (sellerId) => {
-        const query = `SELECT * FROM informasi_store WHERE sellerId = ${sellerId};`;
+    getBySellerId: async (userId) => {
+        const query = `SELECT * FROM informasi_store WHERE userId = ${userId};`;
         const [results] = await db.query(query);
         return results;
     },
