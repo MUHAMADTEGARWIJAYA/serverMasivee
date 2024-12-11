@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/stores", verifyToken, upload.single("image"), addStoreInfo);
 
 // Route untuk mendapatkan informasi toko
-router.get("/getstores", verifyToken, getStoreInfo);
+router.get("/getstores", getStoreInfo);
 router.get('/storeid/:storeId', verifyToken, getStoreInfoById);
 // Route untuk mendapatkan foto toko berdasarkan sellerId
 router.get("/store-photo/:sellerId", verifyToken, getStorePhotoBySellerId);
