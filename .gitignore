@@ -1,1 +1,13 @@
 node_modules/
+# Mengabaikan file .env
+.env
+
+# Mengabaikan folder node_modules
+node_modules/
+
+# Mengabaikan file log
+*.log
+
+# Mengabaikan folder build atau dist
+build/
+dist/
