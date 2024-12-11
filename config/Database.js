@@ -13,7 +13,7 @@ const db = mysql.createPool({
   waitForConnections: true, // Tunggu jika semua koneksi sedang digunakan
   connectionLimit: 10,      // Maksimum koneksi dalam pool
   queueLimit: 0,     
-  port: process.env.DB_PORT,       // Antrian tidak terbatas jika koneksi penuh
+  port: process.env.PORT,       // Antrian tidak terbatas jika koneksi penuh
 });
 
 // Test koneksi pool
