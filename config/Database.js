@@ -1,29 +1,42 @@
 import mysql from 'mysql2';
 import dotenv from 'dotenv';
 
-// Load environment variables from .env file
+// Memuat variabel lingkungan dari file .env
 dotenv.config();
 
-// Membuat pool koneksi
+// Membuat koneksi pool ke database
 const db = mysql.createPool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+});
+
+
+const connection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  waitForConnections: true, // Tunggu jika semua koneksi sedang digunakan
-  connectionLimit: 10,      // Maksimum koneksi dalam pool
-  queueLimit: 0,     
-  port: process.env.DB_PORT,       // Antrian tidak terbatas jika koneksi penuh
+  database: process.env.DB_NAME
 });
 
-// Test koneksi pool
-db.getConnection((err, connection) => {
+connection.connect((err) => {
   if (err) {
-    console.error('Error connecting to the database:', err.message);
-  } else {
-    console.log('Connected to the MySQL database.');
-    connection.release(); // Kembalikan koneksi ke pool
+    console.error('Database connection error:', err);
+    return;
   }
+  console.log('Database terhubung....');
+});
+
+connection.connect((err) => {
+  if (err) {
+    console.error('Database connection error:', err);
+    return;
+  }
+  console.log('Database terhubung....');
 });
 
 export default db;
