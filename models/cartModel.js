@@ -23,9 +23,16 @@ const addToCart = (userId, productId, quantity, totalPrice) => {
 };
 
 const getCartByUserId = (userId, callback) => {
-    const query = `SELECT * FROM cart WHERE userId = ${userId}`;
-    db.query(query, callback);
+    const query = `
+        SELECT cart.id, cart.userId, cart.productId, cart.quantity, cart.totalPrice,
+               product.name, product.imageUrl, product.price
+        FROM cart
+        JOIN product ON cart.productId = product.id
+        WHERE cart.userId = ?;
+    `;
+    db.query(query, [userId], callback);
 };
+
 
 const updateCart = (cartId, quantity, totalPrice) => {
     const query = `

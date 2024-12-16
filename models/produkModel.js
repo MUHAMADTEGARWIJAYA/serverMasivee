@@ -1,5 +1,3 @@
-import db from "../config/Database.js";
-
 const createProductTable = () => {
     const query = `
     CREATE TABLE IF NOT EXISTS products (
@@ -12,6 +10,7 @@ const createProductTable = () => {
         document VARCHAR(255),
         sellerId INT NOT NULL,
         storeName VARCHAR(255) NOT NULL,
+        phoneNumber VARCHAR(15),  -- Menambahkan kolom phoneNumber
         FOREIGN KEY (sellerId) REFERENCES sellers(id) ON DELETE CASCADE
     );
     `;
@@ -24,39 +23,14 @@ const createProductTable = () => {
     });
 };
 
-const insertProduct = (product, callback) => {
-    const query = `
-        INSERT INTO products (name, description, price, weight, imageUrl, document, sellerId, storeName)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    `;
-    const values = [
-        product.name, product.description, product.price, product.weight,
-        product.imageUrl, product.document, product.sellerId, product.storeName
-    ];
-    db.query(query, values, callback);
+// Jika Anda sudah memiliki tabel dan ingin menambahkan kolom phoneNumber
+const alterProductTable = () => {
+    const query = `ALTER TABLE products ADD COLUMN phoneNumber VARCHAR(15);`;
+    db.query(query, (err) => {
+        if (err) {
+            console.error("Error adding phoneNumber column:", err.message);
+        } else {
+            console.log("phoneNumber column added to products table.");
+        }
+    });
 };
-
-const getProductById = (id, callback) => {
-    const query = "SELECT * FROM products WHERE id = ?";
-    db.query(query, [id], callback);
-};
-
-const updateProduct = (id, product, callback) => {
-    const query = `
-        UPDATE products
-        SET name = ?, description = ?, price = ?, weight = ?, imageUrl = ?, document = ?, storeName = ?
-        WHERE id = ?
-    `;
-    const values = [
-        product.name, product.description, product.price, product.weight,
-        product.imageUrl, product.document, product.storeName, id
-    ];
-    db.query(query, values, callback);
-};
-
-const deleteProduct = (id, callback) => {
-    const query = "DELETE FROM products WHERE id = ?";
-    db.query(query, [id], callback);
-};
-
-export { createProductTable, insertProduct, getProductById, updateProduct, deleteProduct };

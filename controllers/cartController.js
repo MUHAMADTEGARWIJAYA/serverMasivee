@@ -49,7 +49,7 @@ export const getCart = (req, res) => {
            product.name, product.price, product.imageUrl
     FROM cart
     JOIN product ON cart.productId = product.id
-    WHERE cart.userId = ?
+    WHERE cart.userId = ?;
   `;
 
   db.query(query, [userId], (err, result) => {
@@ -60,6 +60,7 @@ export const getCart = (req, res) => {
     return res.status(200).json(result);
   });
 };
+
 
 // Mengupdate jumlah produk dalam keranjang
 export const updateCartItem = (req, res) => {
